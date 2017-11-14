@@ -22,5 +22,5 @@ class CompilationCase(BaseCase):
         # write to /tmp to ease verification
         with open('/tmp/test_create_and_burn.py', 'w') as fd:
             fd.write(content)
-        self.assertEqual(path, u'songs/install/generated/dj_test.py')
+        self.assertEqual(path, 'songs/install/generated/dj_test.py')
         self.assertEqual(expected, content)

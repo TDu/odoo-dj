@@ -132,7 +132,7 @@ class Song(models.Model):
 
     def _select_song_type(self):
         types = []
-        for key, data in self.available_song_types.iteritems():
+        for key, data in list(self.available_song_types.items()):
             # decorated sorting
             types.append((data['sequence'], key, data['name']))
         return [x[1:] for x in sorted(types)]
@@ -144,8 +144,8 @@ class Song(models.Model):
             defaults = self.available_song_types.get(
                 self.song_type, {}).get('defaults', {})
             # self.write does play good w/ NewId records
-            for k, v in defaults.iteritems():
-                if isinstance(v, basestring):
+            for k, v in list(defaults.items()):
+                if isinstance(v, str):
                     if v.startswith('xmlid:'):
                         v = self.env.ref(v[6:]).id
                 self[k] = v
@@ -198,7 +198,7 @@ class Song(models.Model):
         for item in self:
             prefix = self.available_song_types.get(
                 item.song_type, {}).get('prefix', 'load_')
-            name = u'{}{}'.format(
+            name = '{}{}'.format(
                 prefix,
                 (item.model_id.model or '').replace('.', '_'),
             )
@@ -236,7 +236,7 @@ class Song(models.Model):
     def _compute_involved_modules(self):
         for item in self:
             txt = []
-            for mod, _fields in item._involved_modules().iteritems():
+            for mod, _fields in list(item._involved_modules().items()):
                 txt.append('<b>%s:</b> %s' % (mod, ', '.join(_fields)))
             item.involved_modules = '<br />'.join(sorted(txt))
 
@@ -564,7 +564,7 @@ class Song(models.Model):
                 values = wizard.read(load='_classic_write')[0]
             cp_values = {}
             fields_info = self.song_model.fields_get()
-            for fname, val in values.iteritems():
+            for fname, val in list(values.items()):
                 if fname in SPECIAL_FIELDS:
                     continue
                 finfo = fields_info[fname]
@@ -577,15 +577,15 @@ class Song(models.Model):
                 # Let's add some helpful info.
                 label = finfo['string']
                 if finfo['type'] == 'selection':
-                    label += u': {}'.format(dict(finfo['selection'])[val])
+                    label += ': {}'.format(dict(finfo['selection'])[val])
                     # selection field can have many values not only chars
                     # let's wrap it only if it's a string
-                    if val and isinstance(val, basestring):
-                        val = u"'{}'".format(val)
+                    if val and isinstance(val, str):
+                        val = "'{}'".format(val)
                 if val and finfo['type'] in self.settings_char_fields:
-                    val = u"'{}'".format(val)
+                    val = "'{}'".format(val)
                 elif val and finfo['type'] in self.settings_text_fields:
-                    val = u'"""{}"""'.format(val)
+                    val = '"""{}"""'.format(val)
                 cp_values[fname] = {
                     'val': val,
                     'label': label,
@@ -626,7 +626,7 @@ class Song(models.Model):
         args = args or []
         domain = []
         if name:
-            domain = [('model_id.model', 'ilike', u'%{}%'.format(name))]
+            domain = [('model_id.model', 'ilike', '%{}%'.format(name))]
         items = self.search(domain + args, limit=limit)
         return items.name_get()
 
