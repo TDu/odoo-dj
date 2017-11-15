@@ -22,8 +22,8 @@
     <field name="model_context">{'xmlid_value_reference': True}</field>
   </record>
 
-  <record model="dj.equalizer" id="dj_equalizer_ir_values">
-    <field name="model">ir.values</field>
+  <record model="dj.equalizer" id="dj_equalizer_ir_default">
+    <field name="model">ir.default</field>
     <field name="model_context">{'xmlid_value_reference': True}</field>
   </record>
 

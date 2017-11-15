@@ -12,7 +12,7 @@ from odoo.tools import pickle
 
 class IRValues(models.Model):
 
-    _inherit = 'ir.values'
+    _inherit = 'ir.default'
 
     def _get_relation_field(self, vals):
         """Return field info if values match a related field."""
