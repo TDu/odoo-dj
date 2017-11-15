@@ -249,6 +249,8 @@ class Base(models.AbstractModel):
     def _dj_path_to_file(self, fname, info, path):
         # special case: xml validation is done for fields like `arch_db`
         # so we need to wrap/unwrap w/ <odoo/> tag
+        if not type(path) is str:
+            path=path.decode()
         path = path.replace('<odoo><path>', '').replace('</path></odoo>', '')
         if not path.startswith(self._dj_path_prefix):
             return path
